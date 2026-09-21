@@ -1,3 +1,4 @@
+Streamlit : https://mayank-catvsdog.streamlit.app/
 # Cat vs Dog Image Classification
 
 A PyTorch convolutional neural network for binary cat-versus-dog image classification. The project includes a training and evaluation notebook plus a Streamlit app for testing individual images.
