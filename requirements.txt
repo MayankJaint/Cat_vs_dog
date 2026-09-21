@@ -7,3 +7,5 @@ torch
 torchvision
 tqdm
 streamlit
+opencv-python
+nn-torch
