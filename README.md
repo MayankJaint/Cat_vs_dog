@@ -66,13 +66,13 @@ The notebook currently contains a Google Colab drive-mount cell. When running lo
 
 The model is a custom `SimpleCNN` with three convolutional blocks and two fully connected layers. Images must be processed as follows:
 
-- Convert BGR input to RGB
+- Decode images as RGB
 - Resize to `128 x 128` pixels
 - Scale pixel values from `[0, 255]` to `[0, 1]`
 - Convert from `(height, width, channels)` to `(channels, height, width)`
 - Use class index `0` for `Cat` and class index `1` for `Dog`
 
-The Streamlit app applies the same preprocessing before inference.
+The notebook and Streamlit app apply the same preprocessing before inference. Pillow is used for image decoding and resizing so the Streamlit deployment does not depend on a native OpenCV import.
 
 ## Run the Streamlit App
 
@@ -110,7 +110,7 @@ cat.0.jpg
 dog.0.jpg
 ```
 
-Images should be readable by OpenCV and stored in the directory supplied through `dataset_path`.
+Images should be readable by Pillow and stored in the directory supplied through `dataset_path`.
 
 ## Troubleshooting
 

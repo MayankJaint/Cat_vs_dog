@@ -1,11 +1,9 @@
 numpy
 pandas
-opencv-python
+Pillow
 matplotlib
 scikit-learn
 torch
 torchvision
 tqdm
 streamlit
-opencv-python
-nn-torch

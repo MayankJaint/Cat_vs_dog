@@ -1,7 +1,8 @@
+from io import BytesIO
 from pathlib import Path
 
-import cv2
 import numpy as np
+from PIL import Image, UnidentifiedImageError
 import streamlit as st
 import torch
 import torch.nn as nn
@@ -54,16 +55,15 @@ def load_model():
 
 
 def prepare_image(image_bytes, image_size):
-    image_array = np.frombuffer(image_bytes, dtype=np.uint8)
-    image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
-    if image is None:
-        raise ValueError("The uploaded file could not be decoded as an image.")
+    try:
+        image = Image.open(BytesIO(image_bytes)).convert("RGB")
+    except (UnidentifiedImageError, OSError) as error:
+        raise ValueError("The uploaded file could not be decoded as an image.") from error
 
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     display_image = image.copy()
-    image = cv2.resize(image, (image_size, image_size))
-    image = image.astype(np.float32) / 255.0
-    tensor = torch.from_numpy(np.transpose(image, (2, 0, 1))).unsqueeze(0)
+    image = image.resize((image_size, image_size), Image.Resampling.BILINEAR)
+    image_array = np.asarray(image, dtype=np.float32) / 255.0
+    tensor = torch.from_numpy(np.transpose(image_array, (2, 0, 1))).unsqueeze(0)
     return display_image, tensor
 
 
